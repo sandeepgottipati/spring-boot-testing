@@ -13,9 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -67,16 +67,56 @@ public class EmployeeServiceTests {
 
     @Test
     @DisplayName("JUnit test for get all Employees")
-    public void given_when_then() {
+    public void givenEmployeesList_whenGetAllEmployees_thenReturnEmployeeList() {
         //given - precondition or setup
-        Employee employee1=Employee.builder().firstName("jack").lastName("Maguire").id(2L).email("jackmaguire@gmail.com").build();
+        Employee employee1 = Employee.builder().firstName("jack").lastName("Maguire").id(2L).email("jackmaguire@gmail.com").build();
 
-        given(employeeRepository.findAll()).willReturn(List.of(employee,employee1));
+        given(employeeRepository.findAll()).willReturn(List.of(employee, employee1));
 
         //when -action or behaviour
-    List<Employee> employeeList=employeeService.getAllEmployee();
+        List<Employee> employeeList = employeeService.getAllEmployee();
 
         //then -verify the output
         assertThat(employeeList.size()).isEqualTo(2);
     }
+
+    @Test
+    @DisplayName("JUnit test for get all employees method with zero employees")
+    public void givenEmptyEmployeeList_whenGetAllEmployees_thenReturnEmptyEmployeeList() {
+        //given - precondition or setup
+        given(employeeRepository.findAll()).willReturn(Collections.emptyList());
+
+        //when -action or behaviour
+        List<Employee> employeeList = employeeService.getAllEmployee();
+        //then -verify the output
+        assertThat(employeeList).isEmpty();
+        assertThat(employeeList).hasSize(0);
+    }
+
+    @Test
+    @DisplayName("JUnit test for getEmployeeById  Method")
+    public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() {
+        //given - precondition or setup
+        given(employeeRepository.findById(1L)).willReturn(Optional.of(employee));
+        //when -action or behaviour
+        Optional<Employee> savedEmployee = employeeService.getEmployeeById(employee.getId());
+        //then -verify the output
+        assertThat(savedEmployee.get().getId()).isEqualTo(employee.getId());
+    }
+
+    @Test
+    @DisplayName("JUnit for updateEmployee method")
+    public void givenEmployeeObject_whenUpdateEmployee_thenReturnEmployeeObject() {
+        //given - precondition or setup
+        given(employeeRepository.save(employee)).willReturn(employee);
+        employee.setLastName("kotha");
+        employee.setFirstName("shreyas");
+        //when -action or behaviour
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+
+        //then -verify the output
+        assertThat(updatedEmployee.getFirstName()).isEqualTo("shreyas");
+        assertThat(updatedEmployee.getLastName()).isEqualTo("kotha");
+    }
+
 }

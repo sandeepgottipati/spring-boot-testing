@@ -29,12 +29,7 @@ public class EmployeeRepositoryTests {
     @Test
     @DisplayName("JUnit test for employee save Operation")
     public void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
-        //given -precondition or setup
-//        Employee employee = Employee.builder()
-//                .firstName("sandeep")
-//                .lastName("gottipati")
-//                .email("snchowdary7@gmail.com")
-//                .build();
+
 
 
         //when - action or behavior

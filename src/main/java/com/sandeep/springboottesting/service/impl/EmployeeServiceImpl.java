@@ -4,7 +4,6 @@ import com.sandeep.springboottesting.exception.ResourceNotFoundException;
 import com.sandeep.springboottesting.model.Employee;
 import com.sandeep.springboottesting.repository.EmployeeRepository;
 import com.sandeep.springboottesting.service.EmployeeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +13,9 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
 private EmployeeRepository employeeRepository;
-EmployeeServiceImpl(){
 
-}
-
-public EmployeeServiceImpl(@Autowired EmployeeRepository employeeRepository){
+    //because constructor injection does not require Autowired annotation.
+public EmployeeServiceImpl( EmployeeRepository employeeRepository){
     this.employeeRepository=employeeRepository;
 }
     @Override
@@ -43,6 +40,11 @@ public EmployeeServiceImpl(@Autowired EmployeeRepository employeeRepository){
     @Override
     public Employee updateEmployee(Employee updatedEmployee) {
      return   employeeRepository.save(updatedEmployee);
+    }
+
+    @Override
+    public void deleteEmployeeById(Long id) {
+        employeeRepository.deleteById(id);
     }
 
 

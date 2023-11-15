@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,8 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EmployeeServiceTests {
@@ -118,5 +119,15 @@ public class EmployeeServiceTests {
         assertThat(updatedEmployee.getFirstName()).isEqualTo("shreyas");
         assertThat(updatedEmployee.getLastName()).isEqualTo("kotha");
     }
+     @Test
+     @DisplayName("Junit test for deleteEmployee Method")
+         public void givenEmployeeId_whenDeleteEmployee_thenNothing(){
+             //given - precondition or setup
+                willDoNothing().given(employeeRepository).deleteById(employee.getId());
+             //when -action or behaviour
+            employeeService.deleteEmployeeById(1l);
+             //then -verify the output
+         verify(employeeRepository,times(1)).deleteById(employee.getId());
+         }
 
 }
